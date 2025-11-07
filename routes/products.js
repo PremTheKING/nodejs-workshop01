@@ -29,7 +29,13 @@ router.get('/', async function (req, res, next) {
 router.get('/:id', async function (req, res, next) {
   try {
     let prod = await ProductsSchema.findOne({ _id: req.params.id });
-
+    if (!prod) {
+      return res.status(404).send({
+        status: 404,
+        message: "Product not found",
+        data: null
+      });
+    }
     res.send({
       status: 200,
       message: "success",
@@ -183,3 +189,4 @@ router.delete('/:id', async function (req, res, next) {
 });
 
 module.exports = router;
+
